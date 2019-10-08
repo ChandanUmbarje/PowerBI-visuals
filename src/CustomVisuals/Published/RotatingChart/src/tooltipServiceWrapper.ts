@@ -52,32 +52,26 @@ module powerbi.extensibility.visual {
                 // Ignore mouseover while handling touch events
                 if (!this.canDisplayTooltip(d3.event))
                     return;
-
-                let tooltipEventArgs = this.makeTooltipEventArgs<T>(rootNode, true, false);
+             let tooltipEventArgs = this.makeTooltipEventArgs<T>(rootNode, true, false);
                 if (!tooltipEventArgs)
                     return;
-
-                let tooltipInfo = getTooltipInfoDelegate(tooltipEventArgs);
+                 let tooltipInfo = getTooltipInfoDelegate(tooltipEventArgs);
                 if (tooltipInfo == null)
                     return;
-
                 let selectionId = getDataPointIdentity(tooltipEventArgs);
-
-                this.visualHostTooltipService.show({
+                 this.visualHostTooltipService.show({
                     coordinates: tooltipEventArgs.coordinates,
                     isTouchEvent: false,
                     dataItems: tooltipInfo,
                     identities: selectionId ? [selectionId] : [],
                 });
             });
-
-            selection.on("mouseout.tooltip", () => {
+             selection.on("mouseout.tooltip", () => {
                 this.visualHostTooltipService.hide({
                     isTouchEvent: false,
                     immediately: false,
                 });
             });
-
             selection.on("mousemove.tooltip", () => {
                 // Ignore mousemove while handling touch events
                 if (!this.canDisplayTooltip(d3.event))
@@ -93,10 +87,8 @@ module powerbi.extensibility.visual {
                     if (tooltipInfo == null)
                         return;
                 }
-
                 let selectionId = getDataPointIdentity(tooltipEventArgs);
-
-                this.visualHostTooltipService.move({
+                 this.visualHostTooltipService.move({
                     coordinates: tooltipEventArgs.coordinates,
                     isTouchEvent: false,
                     dataItems: tooltipInfo,
@@ -141,7 +133,7 @@ module powerbi.extensibility.visual {
                     clearTimeout(this.handleTouchTimeoutId);
 
                 // At the end of touch action, set a timeout that will let us ignore the incoming mouse events for a small amount of time
-                // TODO: any better way to do this?
+                // TO DO: any better way to do this?
                 this.handleTouchTimeoutId = setTimeout(() => {
                     this.handleTouchTimeoutId = undefined;
                 }, this.handleTouchDelay);
@@ -158,15 +150,13 @@ module powerbi.extensibility.visual {
 
             let mouseCoordinates = this.getCoordinates(rootNode, isPointerEvent);
             let elementCoordinates: number[] = this.getCoordinates(target, isPointerEvent);
-            let tooltipEventArgs: TooltipEventArgs<T> = {
+            return {
                 data: data,
                 coordinates: mouseCoordinates,
                 elementCoordinates: elementCoordinates,
                 context: target,
                 isTouchEvent: isTouchEvent
             };
-
-            return tooltipEventArgs;
         }
 
         private canDisplayTooltip(d3Event: any): boolean {
